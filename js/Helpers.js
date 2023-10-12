@@ -25,3 +25,19 @@ const setstorage=(key,value)=>{
     if (data) return JSON.parse(data).data;
     return null;
   };
+
+  function findProduct(productName){
+    let existingEntries =getstorage("products");
+    if (existingEntries==null) {
+      return true;
+    }
+    let obj1 = existingEntries.find(item => item.productName === productName);
+    if (obj1==null){
+      return true;
+    }
+    else{
+      return false;
+    }
+    
+  }
+  

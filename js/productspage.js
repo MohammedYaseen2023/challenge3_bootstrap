@@ -2,20 +2,40 @@
 // el("#SaveProduct").addEventListener('click',function{
 
 // })
+
+ 
+
 document.querySelector("#SaveProduct").addEventListener('click',function()
- {
-       console.log(findProduct(document.getElementById("productName").value));
-       
-         if (findProduct(document.getElementById("productName").value)){
-              addProduct();
-       }else{
-        document.getElementById("found").innerHTML+="data already exist"
+ {     
+ 
+  if (findProduct(document.getElementById("productName").value)){  
 
-       };
-       
-
+         addProduct();
+         document.getElementById("msg_bar").innerHTML=`
+         <div id="msg_bar" class="container text-center  p-2 w-50 bg-success-subtle  border-1 rounded-4 "> 
+         <label class=" fw-bold   py-2 " for= "found1" id="found"> Data Added Successfully </label>
+     
+       </div>
+         `
         
+          }else{
+
+            document.getElementById("msg_bar").innerHTML=`
+            <div id="msg_bar" class="container text-center  p-2 w-50 bg-danger-subtle  border-1 rounded-4 "> 
+            <label class=" fw-bold   py-2 " for= "found1" id="found"> Data Already Exist </label>
+        
+          </div>
+            `
+          };   
+          setTimeout(() => {
+            document.getElementById("msg_bar").innerHTML=`
+            <div class ="visually-hidden"> </div>
+            `;
+            
+            }, 3000);
+          
 })
+
 
 function addProduct() {
        var productName = document.getElementById("productName").value;
@@ -27,44 +47,33 @@ function addProduct() {
          "description": description,
          "price":price 
        };
-       
-       // Get existing entries from local storage
-       var existingEntries = JSON.parse(localStorage.getItem("products"));
-       
+
+       let existingEntries = getstorage("products");
+
        if (existingEntries == null) {
+
          existingEntries = [];
        }
        
        existingEntries.push(entry);
        
-       localStorage.setItem("products", JSON.stringify(existingEntries));
+       setstorage("products",existingEntries);
      }
+
 //  search function 
 
-function findProduct(productName) {
-       var existingEntries = JSON.parse(localStorage.getItem("products"));
-       if (existingEntries == null) {
-         return true;
-       }
-       var foundEntry = existingEntries.find(function(existingEntries) {
-              return existingEntries.productName === productName       
-       });
-    
-       
-   try {
-       // let aa =JSON.stringify(foundEntry);
-       if ((JSON.stringify(foundEntry)).length>1){
-              return false
-       } else return true;
 
-   } catch (error) {
-      return true 
-   }
+  //  try {
+  //      // let aa =JSON.stringify(foundEntry);
+  //      if ((JSON.stringify(foundEntry)).length>1){
+  //             return false
+  //      } else return true;
 
- 
+  //  } catch (error) {
+  //     return true 
+  //  }
        // Return the found entry or null if not found
        //   return foundEntry || true;
-     }
      
 
 // document.querySelector("#SaveProduct").addEventListener('click',function()

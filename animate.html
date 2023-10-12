@@ -5,12 +5,54 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 <link rel="stylesheet" href="css/animate.css">
   <title>Animation on Page Load</title>
- 
+
+  <style>
+    /* Define the styles for the loading animation */
+    .loading-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #f1f1f1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .loading-animation {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #333;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    /* Define the animation */
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* Hide the loading animation once the page is loaded */
+    body.loaded .loading-container {
+      display: none;
+    }
+  </style>
 </head>
 <body>
   
-  <div class="ring">Loading
-    <span></span>
+  <div class="loading-container">
+    <div class="loading-animation"></div>
   </div>
+
+  <script>
+    // Wait for the page to fully load
+    window.addEventListener('load', function() {
+      // Add the "loaded" class to the body element
+      document.body.classList.add('loaded');
+    });
+  </script>
 </body>
 </html>

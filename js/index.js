@@ -2,6 +2,11 @@ const app_nav=document.querySelector("#MainNav")
 const app_header=document.querySelector("#siteheader")
 const app_f=document.querySelector("#pagefooter")
 const app =document.querySelector("#card_title")
+const app_totalPrice =document.querySelector("#ShowTotalPrice")
+const app_totalProduct =document.querySelector("#ShowTotalProduct")
+const app_test =document.querySelector("#aaa")
+const byid=document.getElementById
+var totatlprice =0;
 
 app_nav.innerHTML=`
 <nav   class="navbar navbar-expand-lg navbar-light bg-light">
@@ -52,9 +57,9 @@ app_nav.innerHTML=`
 `;
 
 app_header.innerHTML=`
-<header class="bg-black py-1 ">
+<header class="bg-black py-0 ">
 
-    <div class="container px-4 px-lg-5 my-5">
+    <div class="container px-4 px-lg-5 my-">
       <div class="text-center text-white">
 
         <h1 class="display-4 fw-bolder">
@@ -67,13 +72,13 @@ app_header.innerHTML=`
     </div>
   </header>
   `;
+   
 
-if (typeof localStorage.getItem('products') !== 'undefined' && localStorage.getItem('products') !== null) {
-    // yourVariable is defined and not null
-
-    const prods=JSON.parse(localStorage.getItem("products"));
+if (typeof  getstorage("products") !== 'undefined' && getstorage("products") !== null) {
+let cardno=0 ;
+    const prods=getstorage("products") ;
     prods.forEach(function (item) { 
-  
+      cardno+=1;
     app.innerHTML+=`
     <div class="col mb-5">
     <div class="card h-100">
@@ -81,15 +86,15 @@ if (typeof localStorage.getItem('products') !== 'undefined' && localStorage.getI
       <div class="card-body p-4">
         <div class="text-center">
           <h5 class=" fw-bolder" >
-              ${item.description}
+              ${item.productName}   ${item.description}
           </h5>
           ${item.price} $
         </div>
         <div class="card-footer p-4 pt-4 border-top-0 bg-transparent ">
           <div class="text-center" id="card1">
-            <a class="btn btn-outline-dark mt-auto" href="#" id="cart-no1" >
+            <button type="button"  class="btn btn-outline-dark  mt-auto" onClick="price_click(${item.price}) "id="cart-no${cardno}" >
               Add To Cart
-            </a>
+            </button>
             
           </div>
 
@@ -99,48 +104,70 @@ if (typeof localStorage.getItem('products') !== 'undefined' && localStorage.getI
     </div>
   </div>
         `; 
-    })       
+    })
+
+    app_totalProduct.innerHTML=`
+    <div >  عدد المنتجات  هو ${cardno}
+  </div>
+    `       
   } else {
     
     app.innerHTML=`
-    <div  > No Item Added<\div>
+    <div  > لا يوجد اي منتجات <\div>
     `
-    // yourVariable is either undefined or null
   }
-  
-  function showLoadingAnimation() {
-    console.log(1);
-  }
-  
-  function hideLoadingAnimation() {
-    // your code here
-    console.log(2);
 
-  }
-  
-  window.addEventListener('load', function() {
-    showLoadingAnimation();
-  });
-  
-  document.addEventListener('DOMContentLoaded', function() {
-    hideLoadingAnimation();
-  });
-  
+  document.querySelector("#searchbtn").addEventListener('click',function()
+ {     
+ 
+  if (findProduct(document.getElementById("search").value)){  
+     
+         
+         document.getElementById("msg_bar").innerHTML=`
+         <div id="msg_bar" class="container text-center  p-1 w-50 bg-success-subtle  border-1 rounded-4 "> 
+         <label class=" fw-bold   py-2 " for= "found1" id="found"> المننج موجود مسبقا </label>
+     
+       </div>
+         `
+        
+          }else{
+
+            document.getElementById("msg_bar1").innerHTML=`
+            <div id="msg_bar" class="container text-center  p-2 w-50 bg-danger-subtle  border-1 rounded-4 "> 
+            <label class=" fw-bold   py-2 " for= "found1" id="found"> المنتج غير موجود </label>
+        
+          </div>
+            `
+          };   
+          setTimeout(() => {
+            document.getElementById("msg_bar1").innerHTML=`
+            <div class ="visually-hidden"> </div>
+            `;
+            
+            }, 3000);
+          
+}
+)
+
    
   app_f.innerHTML=`
     <span class="text-light bg-secondary  d-flex justify-content-center p-3"> Mohammed Yaseen</span>
     `;
 
-//   not working????
-// app_f.innerHTML=`
-// <footer class="bg-dark ">
-// <span class="text-light d-flex justify-content-center p-3"> Mohammed Yaseen</span>
-// </footer>
-// `;
 
+  //  ------------------------------------------
+  function price_click(clicked_object)
+{
+
+  totatlprice+=+clicked_object;
+
+  app_totalPrice.innerHTML=`
+  <div >  السعر الاجمالي للمنتجات هو ${totatlprice} $ </div>
+  `
+}
    
-        
-
+    
+ 
 
 
 
